@@ -58,9 +58,26 @@ Edita el objeto `CONFIG` al inicio de `js/main.js`:
 | `eventDate` | Fecha/hora del evento (`AAAA-MM-DDTHH:mm:ss`), alimenta la cuenta regresiva |
 | `timeLabel`, `venueName`, `venueAddress` | Datos de la recepción |
 | `mapUrl` | Enlace de Google Maps (si está vacío se genera una búsqueda con el lugar) |
-| `family`, `guests`, `preselected` | Familia, lista de invitados e índices preseleccionados |
+| `family`, `guests` | Familia y lista de invitados |
 
 Los textos fijos (mensaje, lluvia de sobres, vestimenta) están en `index.html`.
+
+## Enlaces personalizados
+
+La sección de confirmación se puede rellenar desde la URL (los guiones se muestran como espacios):
+
+```text
+https://TU-DOMINIO/?para=Familia-Rivera&inv=Daniel-Rivera,Juan-Rivera,Ana-Rivera
+```
+
+| Parámetro | Efecto |
+|---|---|
+| `para` | Nombre de la familia (ej. `Familia-Rivera` → "Familia Rivera") |
+| `inv` | Lista de invitados separados por comas (si está vacío o no existe, se usa `CONFIG.guests`) |
+
+- Al llegar por URL **no se muestra** la frase de asientos y **no hay** invitados premarcados.
+- Cada enlace guarda su confirmación en `localStorage` con una clave derivada de `para`/`inv`: las respuestas de distintas familias no se mezclan en el mismo navegador.
+- Sin parámetros, la página funciona como siempre (frase de asientos visible), pero tampoco hay preselección: la casilla inicia desmarcada.
 
 ## Animaciones incluidas
 
