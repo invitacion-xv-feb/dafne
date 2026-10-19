@@ -726,3 +726,51 @@ body.is-locked { overflow: hidden; }
 @media (min-width: 768px) {
     .rsvp__ask-title { font-size: 3rem; }
 }
+
+/* ---------- Botón flotante de música (mismo estilo que .scroll-hint) ---------- */
+.music-toggle {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 40;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1.5px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    background: rgba(7, 16, 44, 0.25); /* para que se vea también sobre secciones claras */
+    backdrop-filter: blur(2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s var(--ease), background 0.3s, border-color 0.3s;
+}
+.music-toggle:hover { transform: scale(1.1); background: rgba(7, 16, 44, 0.45); }
+.music-toggle:active { transform: scale(0.94); }
+.music-toggle:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+
+.music-toggle svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+}
+/* Detenida: ícono de play. Sonando: ícono de stop y anillo que se expande */
+.music-toggle__stop { display: none; }
+.music-toggle.is-playing .music-toggle__play { display: none; }
+.music-toggle.is-playing .music-toggle__stop { display: block; }
+.music-toggle.is-playing { border-color: var(--gold-light); color: var(--gold-light); }
+.music-toggle.is-playing::after {
+    content: "";
+    position: absolute;
+    inset: -1.5px;
+    border: 1.5px solid var(--gold-light);
+    border-radius: 50%;
+    animation: ring 1.8s var(--ease) infinite;
+}
+
+@keyframes ring { from { transform: scale(1); opacity: 0.7; } to { transform: scale(1.7); opacity: 0; } }
