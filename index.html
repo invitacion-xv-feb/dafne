@@ -80,8 +80,8 @@
                 <h2 class="title title--light reveal" data-delay="1">RECEPCIÓN</h2>
                 <p class="reception__time reveal" id="event-time" data-delay="2">7:00 P. M.</p>
                 <p class="reception__place reveal" data-delay="2">
-                    <span id="venue-name">Jardín Los Olivos</span><br>
-                    <span id="venue-address">Calle de la Luna 456, Ciudad, MX</span>
+                    <span id="venue-name">El Edhen</span><br>
+                    <span id="venue-address">P. de La Escondida Mz 51-Lt 7, Hacienda Ojo de Agua, 55770 Edo de, Méx.</span>
                 </p>
                 <a class="btn btn--light reveal" id="map-link" href="#" target="_blank" rel="noopener noreferrer" data-delay="3">
                     <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
@@ -229,6 +229,15 @@
             <button class="btn btn--navy" value="close">ENTENDIDO</button>
         </form>
     </dialog>
+
+    <!-- Música de fondo: se activa con el ícono flotante (los navegadores no permiten autoplay con sonido) -->
+    <audio id="bg-music" src="cabcion.mp3" loop preload="none"></audio>
+    <button class="music-toggle" id="music-toggle" type="button" aria-pressed="false" aria-label="Reproducir música">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path class="music-toggle__play" d="M8 5.5v13l11-6.5z"/>
+            <rect class="music-toggle__stop" x="6.5" y="6.5" width="11" height="11" rx="1.5"/>
+        </svg>
+    </button>
 
     <script src="js/main.js"></script>
 </body>
