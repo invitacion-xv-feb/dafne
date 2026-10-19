@@ -89,7 +89,6 @@ a { color: inherit; text-decoration: none; }
     -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 28%);
     mask-image: linear-gradient(180deg, transparent 0, #000 28%);
 }
-.message__bg    { background-image: url("../mobile/02-mensaje-cuenta-regresiva.png"); }
 .reception__bg  { background-image: url("../mobile/03-recepcion.png"); }
 .envelopes__bg  { background-image: url("../mobile/04-lluvia-sobres.png"); }
 .rsvp__bg       { background-image: url("../mobile/05-confirmacion.png"); }
@@ -554,7 +553,6 @@ a { color: inherit; text-decoration: none; }
 @media (min-width: 768px) {
     :root { --wave-h: 56px; }
 
-    .message__bg    { background-image: url("../desktop/02-mensaje-cuenta-regresiva.png"); }
     .reception__bg  { background-image: url("../desktop/03-recepcion.png"); }
     .envelopes__bg  { background-image: url("../desktop/04-lluvia-sobres.png"); }
     .rsvp__bg       { background-image: url("../desktop/05-confirmacion.png"); }
@@ -644,5 +642,87 @@ body.is-locked { overflow: hidden; }
 }
 
 /* ---------- Confirmación simple (sin familia ni invitados): solo el botón de WhatsApp ---------- */
-.rsvp--simple .section__inner > :not(.rsvp__cta) { display: none; }
+.rsvp--simple .section__inner > :not(.rsvp__cta):not(.rsvp__ask) { display: none; }
 .rsvp--simple .rsvp__cta { margin-top: 0; }
+
+/* ---------- Sección 2: video de fondo (Noche estrellada) ---------- */
+.message { background: #061d3c; }
+
+.message__bg { overflow: hidden; }
+.message__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 53% center;
+    transform-origin: 55% 28%;
+    filter: saturate(0.9) brightness(0.82);
+    transition: opacity 1.2s ease, filter 1.2s ease;
+}
+
+/* El zoom dura lo mismo que el video (--dream-duration se ajusta con JS) y se queda en su valor final */
+.message.is-playing .message__video {
+    animation: starryZoom var(--dream-duration, 4.33s) cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+.message.is-finished .message__video { opacity: 0.18; filter: saturate(0.6) brightness(0.5); }
+
+.message__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(2, 18, 42, 0.08) 0%, rgba(2, 18, 42, 0.18) 55%, rgba(2, 18, 42, 0.86) 100%);
+    opacity: 0.7; /* oscurece lo justo para que el texto se lea sobre el video */
+    transition: opacity 1.2s ease;
+}
+.message.is-finished .message__overlay { opacity: 1; }
+
+/* El texto siempre es visible, por encima del video */
+.message__content { text-shadow: 0 2px 14px rgba(2, 18, 42, 0.7); }
+
+/* Textos claros sobre el fondo oscuro */
+.lead--light { color: #fffaf0; }
+.message .countdown {
+    gap: 1px;
+    overflow: hidden;
+    border-radius: 18px;
+    background: rgba(223, 181, 82, 0.25);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+.message .countdown__item { padding: 18px 8px; background: rgba(5, 34, 70, 0.72); backdrop-filter: blur(10px); }
+.message .countdown__item + .countdown__item::before { display: none; }
+.message .countdown__num { color: #fffaf0; }
+.message .countdown__label { color: #e7c875; }
+
+@keyframes starryZoom { from { transform: scale(1); } to { transform: scale(1.55); } }
+
+@media (max-width: 520px) {
+    .message .countdown__item { padding: 16px 4px; }
+}
+
+/* Con movimiento reducido no hay video: se muestra el contenido sobre el fondo sólido */
+@media (prefers-reduced-motion: reduce) {
+    .message__video { display: none; }
+    .message__overlay { opacity: 1; }
+}
+
+/* Teléfonos muy angostos: etiquetas del contador más compactas */
+@media (max-width: 360px) {
+    .message .countdown__item { padding: 14px 2px; }
+    .message .countdown__num { font-size: 1.7rem; }
+    .message .countdown__label { font-size: 0.5rem; letter-spacing: 0.06em; }
+}
+
+/* Texto sobre el botón de confirmar */
+.rsvp__ask { margin-top: 30px; }
+.rsvp__ask .eyebrow { margin-bottom: 6px; }
+.rsvp__ask-title {
+    margin: 0;
+    font: 400 clamp(1.9rem, 8vw, 2.6rem)/1.1 var(--font-title);
+    letter-spacing: 0.04em;
+    color: var(--cream);
+}
+.rsvp__ask + .rsvp__cta { margin-top: 20px; }
+.rsvp--simple .rsvp__ask { margin-top: 0; }
+
+@media (min-width: 768px) {
+    .rsvp__ask-title { font-size: 3rem; }
+}
