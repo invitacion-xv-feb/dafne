@@ -1,5 +1,5 @@
 /* ==========================================================
-   Invitación XV Años — comportamiento e interacciones
+   Invitación XVI Años — comportamiento e interacciones
    Edita CONFIG para personalizar la invitación.
    ========================================================== */
 (function () {
@@ -422,7 +422,7 @@
         $('#confirmacion').classList.add('rsvp--simple');
 
         const name = CONFIG.celebrantName ? ` de ${CONFIG.celebrantName}` : '';
-        const text = `Hola, confirmo mi asistencia a los XV años${name}.`;
+        const text = `Hola, confirmo mi asistencia a los XVI años${name}.`;
         const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
 
         const button = $('#confirm-btn');
