@@ -12,7 +12,8 @@
         eventDate: '2027-02-27T19:00:00',
         timeLabel: '7:00 P. M.',
         venueName: 'El Edhen',
-        venueAddress: 'P. de La Escondida Mz 51-Lt 7, Hacienda Ojo de Agua, 55770 Edo de, Méx.',
+        // Cada elemento es un renglón (también se acepta un solo texto)
+        venueAddress: ['P. de La Escondida Mz 51-Lt 7,', 'Hacienda Ojo de Agua,', '55770 Edo de Méx.'],
         mapUrl: 'https://www.google.com/maps/place/El+Edhen/data=!4m2!3m1!1s0x0:0x2f9c74dc475b1947?sa=X&ved=1t:2428&ictx=111', // Si se deja vacío se genera una búsqueda en Google Maps
         family: '',
         guests: [''],
@@ -95,10 +96,17 @@
 
     /* ---------- Contenido dinámico (siempre con textContent) ---------- */
     function fillContent() {
+        const addressLines = [].concat(CONFIG.venueAddress);
         $('#celebrant-name').textContent = CONFIG.celebrantName;
         $('#event-time').textContent = CONFIG.timeLabel;
         $('#venue-name').textContent = CONFIG.venueName;
-        $('#venue-address').textContent = CONFIG.venueAddress;
+        // Un renglón por elemento; se crean nodos de texto y <br> (nunca HTML)
+        const addressEl = $('#venue-address');
+        addressEl.textContent = '';
+        addressLines.forEach((line, i) => {
+            if (i) addressEl.appendChild(document.createElement('br'));
+            addressEl.appendChild(document.createTextNode(line));
+        });
         $('#family-name').textContent = CONFIG.family;
         $('#seats-total').textContent = CONFIG.guests.length;
 
@@ -107,7 +115,7 @@
                 `${pad(eventDate.getDate())} · ${pad(eventDate.getMonth() + 1)} · ${eventDate.getFullYear()}`;
         }
 
-        const query = encodeURIComponent(`${CONFIG.venueName} ${CONFIG.venueAddress}`);
+        const query = encodeURIComponent(`${CONFIG.venueName} ${addressLines.join(' ')}`);
         const mapUrl = CONFIG.mapUrl || `https://www.google.com/maps/search/?api=1&query=${query}`;
         $('#map-link').href = mapUrl;
     }
