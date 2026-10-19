@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Mis XV Años</title>
+    <meta name="description" content="Invitación digital a mis XV años: un sueño hecho realidad.">
+    <meta name="theme-color" content="#0b1a40">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Marcellus&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <main>
+        <!-- 1. HERO -->
+        <section class="section hero" id="inicio">
+            <div class="section__bg hero__bg" data-parallax data-speed="60" data-mouse="14" data-down-only></div>
+            <div class="stars" aria-hidden="true" data-parallax data-speed="-40" data-mouse="-26"></div>
+            <div class="hero__content" data-parallax data-speed="-70" data-mouse="8" data-fade>
+                <p class="hero__eyebrow reveal">MIS XV AÑOS</p>
+                <h1 class="hero__name reveal" id="celebrant-name" data-delay="1">NOMBRE</h1>
+                <p class="hero__date reveal" id="event-date-short" data-delay="2">00 · 00 · 2027</p>
+                <a class="btn btn--light reveal" href="#confirmacion" data-delay="3">
+                    CONFIRMAR ASISTENCIA <span class="btn__arrow" aria-hidden="true">›</span>
+                </a>
+            </div>
+            <a class="scroll-hint" href="#mensaje" aria-label="Bajar a la siguiente sección"><span></span></a>
+        </section>
+
+        <!-- 2. MENSAJE + CUENTA REGRESIVA -->
+        <section class="section section--wave section--cream message" id="mensaje">
+            <div class="section__bg message__bg" data-parallax data-speed="45"></div>
+            <div class="section__inner" data-parallax data-speed="-18">
+                <span class="ornament reveal" aria-hidden="true">✦</span>
+                <h2 class="title title--navy reveal" data-delay="1">UN SUEÑO<br>HECHO REALIDAD</h2>
+                <p class="lead reveal" data-delay="2">
+                    Hay momentos en la vida que se vuelven inolvidables
+                    cuando los compartes con las personas más especiales.
+                    Quiero que seas parte de esta noche mágica,
+                    llena de estrellas, alegría y nuevos comienzos.
+                </p>
+
+                <div class="countdown reveal" data-delay="3" role="timer" aria-live="off">
+                    <div class="countdown__item">
+                        <span class="countdown__num" id="cd-days">000</span>
+                        <span class="countdown__label">DÍAS</span>
+                    </div>
+                    <div class="countdown__item">
+                        <span class="countdown__num" id="cd-hours">00</span>
+                        <span class="countdown__label">HORAS</span>
+                    </div>
+                    <div class="countdown__item">
+                        <span class="countdown__num" id="cd-minutes">00</span>
+                        <span class="countdown__label">MINUTOS</span>
+                    </div>
+                    <div class="countdown__item">
+                        <span class="countdown__num" id="cd-seconds">00</span>
+                        <span class="countdown__label">SEGUNDOS</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. RECEPCIÓN -->
+        <section class="section section--wave reception" id="recepcion">
+            <div class="section__bg reception__bg" data-parallax data-speed="70"></div>
+            <div class="fireflies" aria-hidden="true" data-parallax data-speed="-50"></div>
+            <div class="section__inner section__inner--light" data-parallax data-speed="-18">
+                <span class="ornament ornament--gold reveal" aria-hidden="true">✦</span>
+                <h2 class="title title--light reveal" data-delay="1">RECEPCIÓN</h2>
+                <p class="reception__time reveal" id="event-time" data-delay="2">7:00 P. M.</p>
+                <p class="reception__place reveal" data-delay="2">
+                    <span id="venue-name">Jardín Los Olivos</span><br>
+                    <span id="venue-address">Calle de la Luna 456, Ciudad, MX</span>
+                </p>
+                <a class="btn btn--light reveal" id="map-link" href="#" target="_blank" rel="noopener noreferrer" data-delay="3">
+                    <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+                    VER UBICACIÓN <span class="btn__arrow" aria-hidden="true">›</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 4. LLUVIA DE SOBRES -->
+        <section class="section section--wave section--cream envelopes" id="sobres">
+            <div class="section__bg envelopes__bg" data-parallax data-speed="45"></div>
+            <div class="section__inner" data-parallax data-speed="-18">
+                <svg class="gift reveal" viewBox="0 0 64 64" aria-hidden="true">
+                    <rect x="6" y="22" width="30" height="30" rx="2"/>
+                    <rect x="3" y="14" width="36" height="9" rx="2"/>
+                    <path d="M21 14v38M21 14c-3-9-12-9-12-3s9 3 12 3Zm0 0c3-9 12-9 12-3s-9 3-12 3Z"/>
+                    <rect x="30" y="34" width="30" height="22" rx="2"/>
+                    <path d="m30 36 15 11 15-11"/>
+                    <path class="gift__spark" d="M52 8v10M47 13h10"/>
+                </svg>
+                <h2 class="title title--navy title--small reveal" data-delay="1">LLUVIA DE SOBRES</h2>
+                <p class="lead lead--small reveal" data-delay="2">
+                    Tu presencia hará este día aún más especial.
+                    Si deseas obsequiarme un detalle, podrás participar
+                    en la lluvia de sobres durante la celebración.
+                </p>
+                <button class="btn btn--navy reveal" type="button" id="open-envelopes" data-delay="3">
+                    VER CÓMO PARTICIPAR <span class="btn__arrow" aria-hidden="true">›</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 5. CONFIRMACIÓN -->
+        <section class="section section--wave rsvp" id="confirmacion">
+            <div class="section__bg rsvp__bg" data-parallax data-speed="40"></div>
+            <div class="stars" aria-hidden="true" data-parallax data-speed="-45"></div>
+            <div class="section__inner section__inner--light" data-parallax data-speed="-12">
+                <p class="eyebrow eyebrow--gold reveal">CONFIRMACIÓN PERSONALIZADA</p>
+                <span class="ornament ornament--gold reveal" aria-hidden="true">✦</span>
+                <h2 class="family reveal" id="family-name" data-delay="1">Familia Rivera</h2>
+                <p class="rsvp__intro reveal" data-delay="2">
+                    Hemos reservado <span id="seats-total">3</span> lugares para su familia.<br>
+                    Seleccionen quiénes asistirán:
+                </p>
+
+                <ul class="guests reveal" id="guest-list" data-delay="3"></ul>
+
+                <p class="rsvp__count reveal" data-delay="4">
+                    <svg class="rsvp__people" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm7 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM9 13c-3.300 0-6 1.800-6 4v3h12v-3c0-2.200-2.700-4-6-4Zm7 0c-.4 0-.800 0-1.200.1 1.500 1 2.200 2.300 2.200 3.900v3h5v-3c0-1.800-2.600-4-6-4Z"/></svg>
+                    <span id="guest-summary" aria-live="polite">0 de 3 personas asistirán</span>
+                </p>
+                <p class="rsvp__note reveal" data-delay="4">Podrán modificar su respuesta antes de la fecha límite.</p>
+
+                <button class="btn btn--outline reveal" type="button" id="confirm-btn" data-delay="5">
+                    <span class="btn__check" aria-hidden="true">✓</span>
+                    <span id="confirm-label">CONFIRMAR ASISTENCIA</span>
+                </button>
+                <p class="rsvp__lock reveal" data-delay="5" id="rsvp-status" role="status">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 9V7a5 5 0 0 0-10 0v2H5v12h14V9h-2Zm-8-2a3 3 0 0 1 6 0v2H9V7Z"/></svg>
+                    Su respuesta quedará registrada.
+                </p>
+            </div>
+        </section>
+
+        <!-- 6. VESTIMENTA -->
+        <section class="section section--wave section--cream dress" id="vestimenta">
+            <div class="section__bg dress__bg" data-parallax data-speed="45"></div>
+            <div class="section__inner" data-parallax data-speed="-18">
+                <p class="eyebrow eyebrow--navy reveal">CÓDIGO DE VESTIMENTA</p>
+                <span class="ornament reveal" aria-hidden="true">✦</span>
+                <h2 class="title title--navy title--small reveal" data-delay="1">FORMAL</h2>
+                <p class="lead lead--small reveal" data-delay="2">
+                    Colores reservados:<br>Dorado, azul noche y tonos similares.
+                </p>
+                <ul class="swatches reveal" data-delay="3" aria-label="Colores reservados">
+                    <li class="swatch swatch--gold" title="Dorado"></li>
+                    <li class="swatch swatch--navy" title="Azul noche"></li>
+                    <li class="swatch swatch--cream" title="Crema"></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 7. GRACIAS -->
+        <section class="section section--wave thanks" id="gracias">
+            <div class="section__bg thanks__bg" data-parallax data-speed="60"></div>
+            <div class="stars stars--dense" aria-hidden="true" data-parallax data-speed="-60"></div>
+            <div class="section__inner section__inner--light" data-parallax data-speed="-20">
+                <h2 class="thanks__title reveal">GRACIAS</h2>
+                <p class="thanks__text reveal" data-delay="2">
+                    POR SER PARTE DE ESTE<br>CAPÍTULO TAN ESPECIAL
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal: cómo participar en la lluvia de sobres -->
+    <dialog class="modal" id="envelopes-modal" aria-labelledby="envelopes-title">
+        <form method="dialog" class="modal__box">
+            <button class="modal__close" value="close" aria-label="Cerrar">×</button>
+            <h3 id="envelopes-title">Lluvia de sobres</h3>
+            <p>Si deseas participar, durante la celebración habrá un buzón especial para recibir tus sobres con cariño.</p>
+            <p class="modal__small">Tu presencia es el mejor regalo. Cualquier detalle será recibido con mucho agradecimiento.</p>
+            <button class="btn btn--navy" value="close">ENTENDIDO</button>
+        </form>
+    </dialog>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
