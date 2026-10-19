@@ -1,107 +1,244 @@
-# Invitación Digital — Mis XV Años
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Mis XV Años</title>
+    <meta name="description" content="Invitación digital a mis XV años: un sueño hecho realidad.">
+    <meta name="theme-color" content="#0b1a40">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Marcellus&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
 
-Página web de invitación (mobile-first) con animaciones: hero, mensaje con cuenta regresiva, recepción, lluvia de sobres, confirmación personalizada, código de vestimenta y agradecimiento.
+    <main>
+        <!-- 1. HERO -->
+        <section class="section hero" id="inicio">
+            <div class="section__bg hero__bg" data-parallax data-speed="60" data-mouse="14" data-down-only></div>
+            <div class="stars" aria-hidden="true" data-parallax data-speed="-40" data-mouse="-26"></div>
+            <div class="hero__content" data-parallax data-speed="-70" data-mouse="8" data-fade>
+                <p class="hero__eyebrow reveal">MIS XV AÑOS</p>
+                <h1 class="hero__name reveal" id="celebrant-name" data-delay="1">Dafne Cuevas</h1>
+                <p class="hero__date reveal" id="event-date-short" data-delay="2">27 · 02 · 2027</p>
+                <a class="btn btn--light reveal" href="#confirmacion" data-delay="3">
+                    CONFIRMAR ASISTENCIA <span class="btn__arrow" aria-hidden="true">›</span>
+                </a>
+            </div>
+            <a class="scroll-hint" href="#mensaje" aria-label="Bajar a la siguiente sección"><span></span></a>
+        </section>
 
-## Prerrequisitos
+        <!-- 2. MENSAJE + CUENTA REGRESIVA -->
+        <section class="section section--wave message" id="mensaje">
+            <!-- Fondo: video de Noche estrellada (se reproduce una vez al llegar a la sección) -->
+            <div class="section__bg message__bg" data-parallax data-speed="45">
+                <video class="message__video" muted playsinline preload="auto" disablepictureinpicture aria-hidden="true" tabindex="-1">
+                    <source src="van-gogh-violin.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="message__overlay" aria-hidden="true"></div>
+            <div class="section__inner" data-parallax data-speed="-18">
+                <div class="message__content">
+                    <span class="ornament ornament--gold" aria-hidden="true">✦</span>
+                    <h2 class="title title--light">UN SUEÑO<br>HECHO REALIDAD</h2>
+                    <p class="lead lead--light">
+                        Hay momentos en la vida que se vuelven inolvidables
+                        cuando los compartes con las personas más especiales.
+                        Quiero que seas parte de esta noche mágica,
+                        llena de estrellas, alegría y nuevos comienzos.
+                    </p>
 
-- Cualquier navegador moderno (Chrome, Edge, Firefox, Safari).
-- Opcional: Node.js o Python para servir los archivos localmente. No requiere build ni dependencias.
-- Conexión a internet para cargar las fuentes de Google Fonts (Marcellus y Lato); sin ella se usan fuentes del sistema.
+                    <div class="countdown" role="timer" aria-live="off">
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="cd-days">000</span>
+                            <span class="countdown__label">DÍAS</span>
+                        </div>
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="cd-hours">00</span>
+                            <span class="countdown__label">HORAS</span>
+                        </div>
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="cd-minutes">00</span>
+                            <span class="countdown__label">MINUTOS</span>
+                        </div>
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="cd-seconds">00</span>
+                            <span class="countdown__label">SEGUNDOS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-## Estructura de carpetas
+        <!-- 3. RECEPCIÓN -->
+        <section class="section section--wave reception" id="recepcion">
+            <div class="section__bg reception__bg" data-parallax data-speed="70"></div>
+            <div class="fireflies" aria-hidden="true" data-parallax data-speed="-50"></div>
+            <div class="section__inner section__inner--light" data-parallax data-speed="-18">
+                <span class="ornament ornament--gold reveal" aria-hidden="true">✦</span>
+                <h2 class="title title--light reveal" data-delay="1">RECEPCIÓN</h2>
+                <p class="reception__time reveal" id="event-time" data-delay="2">7:00 P. M.</p>
+                <p class="reception__place reveal" data-delay="2">
+                    <span id="venue-name">El Edhen</span><br>
+                    <span id="venue-address">P. de La Escondida Mz 51-Lt 7, Hacienda Ojo de Agua, 55770 Edo de, Méx.</span>
+                </p>
+                <a class="btn btn--light reveal" id="map-link" href="#" target="_blank" rel="noopener noreferrer" data-delay="3">
+                    <svg class="btn__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+                    VER UBICACIÓN <span class="btn__arrow" aria-hidden="true">›</span>
+                </a>
+            </div>
+        </section>
 
-```text
-we/
-├── index.html          # Estructura de la página
-├── css/
-│   └── styles.css      # Estilos y animaciones
-├── js/
-│   └── main.js         # Interacciones y configuración (CONFIG)
-├── van-gogh-violin.mp4 # Video de fondo de la sección 2 (4.3 s, sin audio)
-├── desktop/            # Fondos para pantallas >= 768 px
-│   ├── 01-hero.jpeg
-│   └── 02 … 07-*.png
-├── mobile/             # Fondos para móvil (02 … 07-*.png)
-├── web.jpeg            # Diseño de referencia
-└── README.md
-```
+        <!-- 4. LLUVIA DE SOBRES -->
+        <section class="section section--wave section--cream envelopes" id="sobres">
+            <div class="section__bg envelopes__bg" data-parallax data-speed="45"></div>
+            <div class="section__inner" data-parallax data-speed="-18">
+                <svg class="gift reveal" viewBox="0 0 64 64" aria-hidden="true">
+                    <rect x="6" y="22" width="30" height="30" rx="2"/>
+                    <rect x="3" y="14" width="36" height="9" rx="2"/>
+                    <path d="M21 14v38M21 14c-3-9-12-9-12-3s9 3 12 3Zm0 0c3-9 12-9 12-3s-9 3-12 3Z"/>
+                    <rect x="30" y="34" width="30" height="22" rx="2"/>
+                    <path d="m30 36 15 11 15-11"/>
+                    <path class="gift__spark" d="M52 8v10M47 13h10"/>
+                </svg>
+                <h2 class="title title--navy title--small reveal" data-delay="1">LLUVIA DE SOBRES</h2>
+                <p class="lead lead--small reveal" data-delay="2">
+                    Tu presencia hará este día aún más especial.
+                    Si deseas obsequiarme un detalle, podrás participar
+                    en la lluvia de sobres durante la celebración.
+                </p>
+                <button class="btn btn--navy reveal" type="button" id="open-envelopes" data-delay="3">
+                    VER CÓMO PARTICIPAR <span class="btn__arrow" aria-hidden="true">›</span>
+                </button>
+            </div>
+        </section>
 
-> El hero usa `desktop/01-hero.jpeg` tanto en escritorio como en móvil (recortado y enfocado en la quinceañera). Si más adelante agregas `mobile/01-hero.jpeg`, cambia la regla `.hero__bg` en `css/styles.css`.
+        <!-- 5. CONFIRMACIÓN -->
+        <section class="section section--wave rsvp" id="confirmacion">
+            <div class="section__bg rsvp__bg" data-parallax data-speed="40"></div>
+            <div class="stars" aria-hidden="true" data-parallax data-speed="-45"></div>
+            <div class="section__inner section__inner--light" data-parallax data-speed="-12">
+                <p class="eyebrow eyebrow--gold reveal">CONFIRMACIÓN PERSONALIZADA</p>
+                <span class="ornament ornament--gold reveal" aria-hidden="true">✦</span>
+                <h2 class="family reveal" id="family-name" data-delay="1">Familia Rivera</h2>
+                <p class="rsvp__intro reveal" data-delay="2">
+                    <span id="seats-line">Hemos reservado <span id="seats-total">3</span> lugares para su familia.<br></span>
+                    Seleccionen quiénes asistirán:
+                </p>
 
-## Setup local
+                <ul class="guests reveal" id="guest-list" data-delay="3"></ul>
 
-Opción 1 — abrir `index.html` con doble clic.
+                <p class="rsvp__count reveal" data-delay="4">
+                    <svg class="rsvp__people" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm7 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM9 13c-3.300 0-6 1.800-6 4v3h12v-3c0-2.200-2.700-4-6-4Zm7 0c-.4 0-.800 0-1.200.1 1.500 1 2.200 2.300 2.200 3.900v3h5v-3c0-1.800-2.600-4-6-4Z"/></svg>
+                    <span id="guest-summary" aria-live="polite">0 de 3 personas asistirán</span>
+                </p>
+                <p class="rsvp__note reveal" data-delay="4">Podrán modificar su respuesta antes de la fecha límite.</p>
 
-Opción 2 — servidor local:
+                <div class="rsvp__ask reveal" data-delay="5">
+                    <p class="eyebrow eyebrow--gold">CONFIRMACIÓN DE ASISTENCIA</p>
+                    <h3 class="rsvp__ask-title">¿NOS ACOMPAÑAS?</h3>
+                </div>
+                <button class="btn btn--outline rsvp__cta reveal" type="button" id="confirm-btn" data-delay="5">
+                    <span class="btn__check" aria-hidden="true">✓</span>
+                    <span id="confirm-label">CONFIRMAR ASISTENCIA</span>
+                </button>
+                <p class="rsvp__lock reveal" data-delay="5" id="rsvp-status" role="status">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 9V7a5 5 0 0 0-10 0v2H5v12h14V9h-2Zm-8-2a3 3 0 0 1 6 0v2H9V7Z"/></svg>
+                    Su respuesta quedará registrada.
+                </p>
+            </div>
+        </section>
 
-```bash
-# Python
-python -m http.server 8080
+        <!-- 6. VESTIMENTA -->
+        <section class="section section--wave section--cream dress" id="vestimenta">
+            <div class="section__bg dress__bg" data-parallax data-speed="45"></div>
+            <div class="section__inner" data-parallax data-speed="-18">
+                <p class="eyebrow eyebrow--navy reveal">CÓDIGO DE VESTIMENTA</p>
+                <span class="ornament reveal" aria-hidden="true">✦</span>
+                <h2 class="title title--navy title--small reveal" data-delay="1">FORMAL</h2>
+                <p class="lead lead--small reveal" data-delay="2">
+                    Colores reservados:<br>Dorado, azul noche y tonos similares.
+                </p>
+                <ul class="swatches reveal" data-delay="3" aria-label="Colores reservados">
+                    <li class="swatch swatch--gold" title="Dorado"></li>
+                    <li class="swatch swatch--navy" title="Azul noche"></li>
+                    <li class="swatch swatch--cream" title="Crema"></li>
+                </ul>
+                <button class="btn btn--navy reveal" type="button" id="open-rules" data-delay="4">
+                    VER NORMAS DEL EVENTO <span class="btn__arrow" aria-hidden="true">›</span>
+                </button>
+            </div>
+        </section>
 
-# Node.js
-npx serve .
-```
+        <!-- 7. GRACIAS -->
+        <section class="section section--wave thanks" id="gracias">
+            <div class="section__bg thanks__bg" data-parallax data-speed="60"></div>
+            <div class="stars stars--dense" aria-hidden="true" data-parallax data-speed="-60"></div>
+            <div class="section__inner section__inner--light" data-parallax data-speed="-20">
+                <h2 class="thanks__title reveal">GRACIAS</h2>
+                <p class="thanks__text reveal" data-delay="2">
+                    POR SER PARTE DE ESTE<br>CAPÍTULO TAN ESPECIAL
+                </p>
+            </div>
+        </section>
+    </main>
 
-Abrir `http://localhost:8080`.
+    <!-- Modal de bienvenida: información importante (se abre al cargar la página) -->
+    <dialog class="modal modal--rules" id="rules-modal" aria-labelledby="rules-title">
+        <form method="dialog" class="modal__box">
+            <h2 class="rules__title" id="rules-title">INFORMACIÓN<br>IMPORTANTE</h2>
+            <span class="ornament" aria-hidden="true">✦</span>
+            <p class="rules__subtitle">Normas para disfrutar juntos</p>
 
-## Llevar el proyecto a otra máquina
+            <ul class="rules__list">
+                <li>
+                    <h3>Identificación</h3>
+                    <p>Las personas mayores de 18 años deberán presentar INE o identificación oficial para ingresar.</p>
+                </li>
+                <li>
+                    <h3>Ambiente sin humo</h3>
+                    <p>Agradecemos evitar fumar dentro del salón.</p>
+                </li>
+                <li>
+                    <h3>Bebidas externas</h3>
+                    <p>No está permitido ingresar bebidas ajenas al establecimiento.</p>
+                </li>
+                <li>
+                    <h3>Momentos especiales</h3>
+                    <p>Durante los momentos protocolarios, evita obstruir la vista de otros invitados.</p>
+                </li>
+                <li>
+                    <h3>Cuidemos el espacio</h3>
+                    <p>Ayúdanos a conservar en buen estado las instalaciones y la decoración.</p>
+                </li>
+            </ul>
 
-1. Copia **toda** la carpeta `we/` (incluidas `desktop/` y `mobile/`), por ejemplo en un `.zip` o USB.
-2. Descomprime y abre `index.html`. Las rutas son relativas, no necesitas reconfigurar nada.
+            <p class="rules__thanks">Gracias por ayudarnos a disfrutar<br>de una noche especial.</p>
+            <button class="btn btn--navy btn--block" value="close" id="rules-accept">ENTENDIDO</button>
+        </form>
+    </dialog>
 
-## Personalización
+    <!-- Modal: cómo participar en la lluvia de sobres -->
+    <dialog class="modal" id="envelopes-modal" aria-labelledby="envelopes-title">
+        <form method="dialog" class="modal__box">
+            <button class="modal__close" value="close" aria-label="Cerrar">×</button>
+            <h3 id="envelopes-title">Lluvia de sobres</h3>
+            <p>Si deseas participar, durante la celebración habrá un buzón especial para recibir tus sobres con cariño.</p>
+            <p class="modal__small">Tu presencia es el mejor regalo. Cualquier detalle será recibido con mucho agradecimiento.</p>
+            <button class="btn btn--navy" value="close">ENTENDIDO</button>
+        </form>
+    </dialog>
 
-Edita el objeto `CONFIG` al inicio de `js/main.js`:
+    <!-- Música de fondo: se activa con el ícono flotante (los navegadores no permiten autoplay con sonido) -->
+    <audio id="bg-music" src="cabcion.mp3" loop preload="none"></audio>
+    <button class="music-toggle" id="music-toggle" type="button" aria-pressed="false" aria-label="Reproducir música">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path class="music-toggle__play" d="M8 5.5v13l11-6.5z"/>
+            <rect class="music-toggle__stop" x="6.5" y="6.5" width="11" height="11" rx="1.5"/>
+        </svg>
+    </button>
 
-| Campo | Descripción |
-|---|---|
-| `celebrantName` | Nombre de la quinceañera |
-| `eventDate` | Fecha/hora del evento (`AAAA-MM-DDTHH:mm:ss`), alimenta la cuenta regresiva |
-| `timeLabel`, `venueName`, `venueAddress` | Datos de la recepción |
-| `mapUrl` | Enlace de Google Maps (si está vacío se genera una búsqueda con el lugar) |
-| `family`, `guests` | Familia y lista de invitados |
-| `whatsappNumber` | Número de WhatsApp con lada de país y sin `+` (ej. `525527367255`, provisional). Se usa cuando `family` y `guests` están vacíos |
-
-Los textos fijos (mensaje, lluvia de sobres, vestimenta) están en `index.html`.
-
-## Enlaces personalizados
-
-La sección de confirmación se puede rellenar desde la URL (los guiones se muestran como espacios):
-
-```text
-https://TU-DOMINIO/?para=Familia-Rivera&inv=Daniel-Rivera,Juan-Rivera,Ana-Rivera
-```
-
-| Parámetro | Efecto |
-|---|---|
-| `para` | Nombre de la familia (ej. `Familia-Rivera` → "Familia Rivera"). Si no existe, el título es "Invitados especiales" |
-| `inv` | Lista de invitados separados por comas. Si no existe, se muestra una sola casilla con el valor de `para` (no se usan los invitados de `CONFIG.guests`, para no mezclar datos) |
-
-- Al llegar por URL **no se muestra** la frase de asientos y **no hay** invitados premarcados.
-- Límites de seguridad: cada nombre se recorta a 40 caracteres y se aceptan máximo 10 invitados. Los textos se insertan con `textContent` (nunca como HTML).
-- Cualquiera que tenga el enlace puede cambiar los parámetros: es personalización visual, no validación de identidad.
-- Cada enlace guarda su confirmación en `localStorage` con una clave derivada de `para`/`inv`: las respuestas de distintas familias no se mezclan en el mismo navegador.
-- Sin parámetros, la página funciona como siempre (frase de asientos visible), pero tampoco hay preselección: la casilla inicia desmarcada.
-
-### Confirmación solo por WhatsApp
-
-Si `family` y `guests` están vacíos en `CONFIG` (y el enlace no trae `para`/`inv`), la sección de confirmación muestra únicamente el botón **Confirmar asistencia**, que abre WhatsApp al número `whatsappNumber` con un mensaje prellenado.
-
-## Animaciones incluidas
-
-- Hero con zoom lento (Ken Burns), estrellas titilantes y botones con brillo.
-- Aparición progresiva de textos al hacer scroll.
-- Parallax multicapa (desktop y móvil): fondos, textos, estrellas y luciérnagas se mueven a distinta velocidad al hacer scroll; en desktop el hero reacciona además al mouse y en móvil a la inclinación del dispositivo (Android). Se ajusta con `data-speed`, `data-mouse`, `data-down-only` y `data-fade` en `index.html`.
-- Transiciones entre secciones: el hero queda fijo y la siguiente sección lo cubre como cortina; la sección que sale se aleja y se atenúa; los fondos que entran hacen zoom-out; destellos dorados flotan en cada borde ondulado.
-- Sección 2 con video de fondo (`van-gogh-violin.mp4`): se reproduce una vez al llegar, con zoom sincronizado; el texto y el contador están siempre visibles por encima del video, que al terminar se oscurece. Si el video falla o el navegador bloquea el autoplay, solo se oscurece el fondo (`setupDreamVideo`). Con movimiento reducido el video no se reproduce y se muestra solo el fondo oscuro con el contenido.
-- Cuenta regresiva en vivo con efecto al cambiar cada dígito.
-- Luciérnagas en la recepción, ícono de regalo flotante.
-- Confirmación: casillas animadas, contador en vivo y chispas doradas al confirmar.
-- Modal "Información importante" (normas del evento) que se abre con el botón "Ver normas del evento" de la sección de vestimenta y se cierra con ENTENDIDO; su texto está en `index.html` (`#rules-modal`).
-- Modal para "Ver cómo participar".
-- Respeta `prefers-reduced-motion` (desactiva animaciones).
-
-## Notas
-
-- La confirmación se guarda únicamente en `localStorage` del navegador (demo). Para registrarla realmente se necesita un backend/API; los datos se renderizan con `textContent` para evitar XSS.
-- Si quieres desplegarla: sube la carpeta a cualquier hosting estático (GitHub Pages, Azure Static Web Apps, Netlify).
+    <script src="js/main.js"></script>
+</body>
+</html>
