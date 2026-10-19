@@ -17,6 +17,7 @@ we/
 │   └── styles.css      # Estilos y animaciones
 ├── js/
 │   └── main.js         # Interacciones y configuración (CONFIG)
+├── van-gogh-violin.mp4 # Video de fondo de la sección 2 (4.3 s, sin audio)
 ├── desktop/            # Fondos para pantallas >= 768 px
 │   ├── 01-hero.jpeg
 │   └── 02 … 07-*.png
@@ -92,10 +93,11 @@ Si `family` y `guests` están vacíos en `CONFIG` (y el enlace no trae `para`/`i
 - Aparición progresiva de textos al hacer scroll.
 - Parallax multicapa (desktop y móvil): fondos, textos, estrellas y luciérnagas se mueven a distinta velocidad al hacer scroll; en desktop el hero reacciona además al mouse y en móvil a la inclinación del dispositivo (Android). Se ajusta con `data-speed`, `data-mouse`, `data-down-only` y `data-fade` en `index.html`.
 - Transiciones entre secciones: el hero queda fijo y la siguiente sección lo cubre como cortina; la sección que sale se aleja y se atenúa; los fondos que entran hacen zoom-out; destellos dorados flotan en cada borde ondulado.
+- Sección 2 con video de fondo (`van-gogh-violin.mp4`): se reproduce una vez al llegar, con zoom sincronizado; el texto y el contador están siempre visibles por encima del video, que al terminar se oscurece. Si el video falla o el navegador bloquea el autoplay, solo se oscurece el fondo (`setupDreamVideo`). Con movimiento reducido el video no se reproduce y se muestra solo el fondo oscuro con el contenido.
 - Cuenta regresiva en vivo con efecto al cambiar cada dígito.
 - Luciérnagas en la recepción, ícono de regalo flotante.
 - Confirmación: casillas animadas, contador en vivo y chispas doradas al confirmar.
-- Modal de bienvenida "Información importante" (normas del evento) que se abre al cargar y se cierra solo con el botón ENTENDIDO; su texto está en `index.html` (`#rules-modal`).
+- Modal "Información importante" (normas del evento) que se abre con el botón "Ver normas del evento" de la sección de vestimenta y se cierra con ENTENDIDO; su texto está en `index.html` (`#rules-modal`).
 - Modal para "Ver cómo participar".
 - Respeta `prefers-reduced-motion` (desactiva animaciones).
 
