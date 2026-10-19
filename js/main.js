@@ -457,7 +457,7 @@
     }
 
     /* ---------- Modal de normas del evento ----------
-       Se abre al cargar la página y desde el botón de la sección de vestimenta */
+       Se abre solo al presionar el botón de la sección de vestimenta */
     function setupRulesModal() {
         const modal = $('#rules-modal');
         if (typeof modal.showModal !== 'function') return;
@@ -472,7 +472,68 @@
 
         modal.addEventListener('close', () => document.body.classList.remove('is-locked'));
         $('#open-rules').addEventListener('click', open);
-        open();
+    }
+
+    /* ---------- Sección 2: video de fondo ----------
+       Se reproduce una vez al llegar a la sección, siempre por detrás del texto y el
+       contador (que están visibles todo el tiempo). Al terminar, el fondo se oscurece. */
+    function setupDreamVideo() {
+        const section = $('#mensaje');
+        const video = $('.message__video', section);
+        if (!video || prefersReducedMotion) return; // CSS muestra el contenido sin video
+
+        let started = false;
+        let finished = false;
+        let waitTimer = 0;
+        let stallTimer = 0;
+        let maxTimer = 0;
+
+        const finish = () => {
+            if (finished) return;
+            finished = true;
+            clearTimeout(waitTimer);
+            clearTimeout(stallTimer);
+            clearTimeout(maxTimer);
+            section.classList.add('is-finished'); // is-playing se conserva: el zoom queda en su valor final
+        };
+
+        const start = async () => {
+            if (started) return;
+            started = true;
+            observer.disconnect();
+
+            // El zoom arranca cuando el video realmente se está reproduciendo
+            video.addEventListener('playing', () => {
+                clearTimeout(stallTimer);
+                section.style.setProperty('--dream-duration', `${video.duration || 4.33}s`);
+                section.classList.add('is-playing');
+            }, { once: true });
+
+            stallTimer = setTimeout(() => { if (video.currentTime === 0) finish(); }, 4000);
+            maxTimer = setTimeout(finish, ((video.duration || 4.33) + 6) * 1000);
+
+            try {
+                await video.play();
+            } catch (e) {
+                finish(); // autoplay bloqueado o formato no soportado
+            }
+        };
+
+        video.addEventListener('ended', finish, { once: true });
+        video.addEventListener('error', finish, true); // los errores de <source> llegan por captura
+
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.intersectionRatio >= 0.4) {
+                start();
+            } else if (entry.intersectionRatio >= 0.15) {
+                // Pantallas muy bajas: si la sección nunca llega al 40 %, arranca igual
+                if (!waitTimer) waitTimer = setTimeout(start, 2500);
+            } else {
+                clearTimeout(waitTimer); // apenas asoma la sección: todavía no se reproduce
+                waitTimer = 0;
+            }
+        }, { threshold: [0, 0.15, 0.4] });
+        observer.observe(section);
     }
 
     /* ---------- Inicio ---------- */
@@ -482,6 +543,7 @@
     buildStars();
     setupReveal();
     setupParallax();
+    setupDreamVideo();
     setupCountdown();
     setupRsvp();
     setupModal();
