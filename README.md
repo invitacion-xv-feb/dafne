@@ -59,6 +59,7 @@ Edita el objeto `CONFIG` al inicio de `js/main.js`:
 | `timeLabel`, `venueName`, `venueAddress` | Datos de la recepción |
 | `mapUrl` | Enlace de Google Maps (si está vacío se genera una búsqueda con el lugar) |
 | `family`, `guests` | Familia y lista de invitados |
+| `whatsappNumber` | Número de WhatsApp con lada de país y sin `+` (ej. `525527367255`, provisional). Se usa cuando `family` y `guests` están vacíos |
 
 Los textos fijos (mensaje, lluvia de sobres, vestimenta) están en `index.html`.
 
@@ -72,12 +73,18 @@ https://TU-DOMINIO/?para=Familia-Rivera&inv=Daniel-Rivera,Juan-Rivera,Ana-Rivera
 
 | Parámetro | Efecto |
 |---|---|
-| `para` | Nombre de la familia (ej. `Familia-Rivera` → "Familia Rivera") |
-| `inv` | Lista de invitados separados por comas (si está vacío o no existe, se usa `CONFIG.guests`) |
+| `para` | Nombre de la familia (ej. `Familia-Rivera` → "Familia Rivera"). Si no existe, el título es "Invitados especiales" |
+| `inv` | Lista de invitados separados por comas. Si no existe, se muestra una sola casilla con el valor de `para` (no se usan los invitados de `CONFIG.guests`, para no mezclar datos) |
 
 - Al llegar por URL **no se muestra** la frase de asientos y **no hay** invitados premarcados.
+- Límites de seguridad: cada nombre se recorta a 40 caracteres y se aceptan máximo 10 invitados. Los textos se insertan con `textContent` (nunca como HTML).
+- Cualquiera que tenga el enlace puede cambiar los parámetros: es personalización visual, no validación de identidad.
 - Cada enlace guarda su confirmación en `localStorage` con una clave derivada de `para`/`inv`: las respuestas de distintas familias no se mezclan en el mismo navegador.
 - Sin parámetros, la página funciona como siempre (frase de asientos visible), pero tampoco hay preselección: la casilla inicia desmarcada.
+
+### Confirmación solo por WhatsApp
+
+Si `family` y `guests` están vacíos en `CONFIG` (y el enlace no trae `para`/`inv`), la sección de confirmación muestra únicamente el botón **Confirmar asistencia**, que abre WhatsApp al número `whatsappNumber` con un mensaje prellenado.
 
 ## Animaciones incluidas
 
@@ -88,6 +95,7 @@ https://TU-DOMINIO/?para=Familia-Rivera&inv=Daniel-Rivera,Juan-Rivera,Ana-Rivera
 - Cuenta regresiva en vivo con efecto al cambiar cada dígito.
 - Luciérnagas en la recepción, ícono de regalo flotante.
 - Confirmación: casillas animadas, contador en vivo y chispas doradas al confirmar.
+- Modal de bienvenida "Información importante" (normas del evento) que se abre al cargar y se cierra solo con el botón ENTENDIDO; su texto está en `index.html` (`#rules-modal`).
 - Modal para "Ver cómo participar".
 - Respeta `prefers-reduced-motion` (desactiva animaciones).
 
