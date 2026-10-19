@@ -20,8 +20,8 @@
             <div class="stars" aria-hidden="true" data-parallax data-speed="-40" data-mouse="-26"></div>
             <div class="hero__content" data-parallax data-speed="-70" data-mouse="8" data-fade>
                 <p class="hero__eyebrow reveal">MIS XV AÑOS</p>
-                <h1 class="hero__name reveal" id="celebrant-name" data-delay="1">NOMBRE</h1>
-                <p class="hero__date reveal" id="event-date-short" data-delay="2">00 · 00 · 2027</p>
+                <h1 class="hero__name reveal" id="celebrant-name" data-delay="1">Dafne Cuevas</h1>
+                <p class="hero__date reveal" id="event-date-short" data-delay="2">27 · 02 · 2027</p>
                 <a class="btn btn--light reveal" href="#confirmacion" data-delay="3">
                     CONFIRMAR ASISTENCIA <span class="btn__arrow" aria-hidden="true">›</span>
                 </a>
@@ -127,7 +127,7 @@
                 </p>
                 <p class="rsvp__note reveal" data-delay="4">Podrán modificar su respuesta antes de la fecha límite.</p>
 
-                <button class="btn btn--outline reveal" type="button" id="confirm-btn" data-delay="5">
+                <button class="btn btn--outline rsvp__cta reveal" type="button" id="confirm-btn" data-delay="5">
                     <span class="btn__check" aria-hidden="true">✓</span>
                     <span id="confirm-label">CONFIRMAR ASISTENCIA</span>
                 </button>
@@ -153,6 +153,9 @@
                     <li class="swatch swatch--navy" title="Azul noche"></li>
                     <li class="swatch swatch--cream" title="Crema"></li>
                 </ul>
+                <button class="btn btn--navy reveal" type="button" id="open-rules" data-delay="4">
+                    VER NORMAS DEL EVENTO <span class="btn__arrow" aria-hidden="true">›</span>
+                </button>
             </div>
         </section>
 
@@ -168,6 +171,41 @@
             </div>
         </section>
     </main>
+
+    <!-- Modal de bienvenida: información importante (se abre al cargar la página) -->
+    <dialog class="modal modal--rules" id="rules-modal" aria-labelledby="rules-title">
+        <form method="dialog" class="modal__box">
+            <h2 class="rules__title" id="rules-title">INFORMACIÓN<br>IMPORTANTE</h2>
+            <span class="ornament" aria-hidden="true">✦</span>
+            <p class="rules__subtitle">Normas para disfrutar juntos</p>
+
+            <ul class="rules__list">
+                <li>
+                    <h3>Identificación</h3>
+                    <p>Las personas mayores de 18 años deberán presentar INE o identificación oficial para ingresar.</p>
+                </li>
+                <li>
+                    <h3>Ambiente sin humo</h3>
+                    <p>Agradecemos evitar fumar dentro del salón.</p>
+                </li>
+                <li>
+                    <h3>Bebidas externas</h3>
+                    <p>No está permitido ingresar bebidas ajenas al establecimiento.</p>
+                </li>
+                <li>
+                    <h3>Momentos especiales</h3>
+                    <p>Durante los momentos protocolarios, evita obstruir la vista de otros invitados.</p>
+                </li>
+                <li>
+                    <h3>Cuidemos el espacio</h3>
+                    <p>Ayúdanos a conservar en buen estado las instalaciones y la decoración.</p>
+                </li>
+            </ul>
+
+            <p class="rules__thanks">Gracias por ayudarnos a disfrutar<br>de una noche especial.</p>
+            <button class="btn btn--navy btn--block" value="close" id="rules-accept">ENTENDIDO</button>
+        </form>
+    </dialog>
 
     <!-- Modal: cómo participar en la lluvia de sobres -->
     <dialog class="modal" id="envelopes-modal" aria-labelledby="envelopes-title">
