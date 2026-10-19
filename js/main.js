@@ -16,9 +16,51 @@
         mapUrl: '', // Si se deja vacío se genera una búsqueda en Google Maps
         family: 'Familia Rivera',
         guests: ['Daniela Rivera', 'Marisol Rivera', 'Ricardo Rivera'],
-        preselected: [0, 1],
         storageKey: 'xv-rsvp-v1'
     };
+
+    /* ---------- Personalización desde la URL ----------
+       Ejemplo: ?para=Familia-Rivera&inv=Daniel-Rivera,Juan-Rivera,Ana-Rivera
+       Los guiones se muestran como espacios. No hay asientos ni
+       preselección cuando la llegada es por URL. */
+    function applyUrlOverrides() {
+        const params = new URLSearchParams(window.location.search);
+        if (!params.has('para') && !params.has('inv')) return;
+
+        const decode = (value) => (value || '').replace(/-/g, ' ').trim();
+
+        const family = decode(params.get('para'));
+        if (family) CONFIG.family = family;
+
+        const guests = (params.get('inv') || '')
+            .split(',')
+            .map(decode)
+            .filter(Boolean);
+        if (guests.length) CONFIG.guests = guests;
+
+        $('#seats-line').hidden = true;
+
+        const identity = family || guests.join('|');
+        if (identity) {
+            const slug = identity
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '');
+
+            if (slug) {
+                CONFIG.storageKey = `${CONFIG.storageKey}-${slug}`;
+            } else {
+                // Identidad sin caracteres alfanuméricos: hash corto (djb2)
+                let hash = 5381;
+                for (let i = 0; i < identity.length; i++) {
+                    hash = ((hash << 5) + hash + identity.charCodeAt(i)) >>> 0;
+                }
+                CONFIG.storageKey = `${CONFIG.storageKey}-${hash.toString(36)}`;
+            }
+        }
+    }
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const $ = (selector, root = document) => root.querySelector(selector);
@@ -288,7 +330,7 @@
 
         const saved = storage.get(CONFIG.storageKey);
         const selected = new Set(
-            saved && Array.isArray(saved.selected) ? saved.selected : CONFIG.preselected
+            saved && Array.isArray(saved.selected) ? saved.selected : []
         );
         let confirmed = Boolean(saved && saved.confirmed);
 
@@ -379,6 +421,7 @@
     }
 
     /* ---------- Inicio ---------- */
+    applyUrlOverrides();
     fillContent();
     buildStars();
     setupReveal();
