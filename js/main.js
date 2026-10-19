@@ -11,9 +11,9 @@
         // Fecha y hora local del evento (AAAA-MM-DDTHH:mm:ss)
         eventDate: '2027-02-27T19:00:00',
         timeLabel: '7:00 P. M.',
-        venueName: 'Jardín Los Olivos',
-        venueAddress: 'Calle de la Luna 456, Ciudad, MX',
-        mapUrl: '', // Si se deja vacío se genera una búsqueda en Google Maps
+        venueName: 'El Edhen',
+        venueAddress: 'P. de La Escondida Mz 51-Lt 7, Hacienda Ojo de Agua, 55770 Edo de, Méx.',
+        mapUrl: 'https://www.google.com/maps/place/El+Edhen/data=!4m2!3m1!1s0x0:0x2f9c74dc475b1947?sa=X&ved=1t:2428&ictx=111', // Si se deja vacío se genera una búsqueda en Google Maps
         family: '',
         guests: [''],
         // Número de WhatsApp (con lada de país, sin "+") para confirmar cuando family y guests están vacíos.
@@ -474,6 +474,65 @@
         $('#open-rules').addEventListener('click', open);
     }
 
+    /* ---------- Música de fondo ----------
+       Play/Stop con el ícono flotante; solo suena tras un clic (política de autoplay). Se pausa si la pestaña
+       se oculta y se reanuda al volver, siempre que el usuario la haya activado. */
+    function setupMusic() {
+        const audio = $('#bg-music');
+        const button = $('#music-toggle');
+        const TARGET_VOLUME = 0.6;
+        let wantsPlaying = false;
+        let fadeTimer = 0;
+
+        const render = (playing) => {
+            button.classList.toggle('is-playing', playing);
+            button.setAttribute('aria-pressed', String(playing));
+            button.setAttribute('aria-label', playing ? 'Detener música' : 'Reproducir música');
+        };
+
+        const fadeIn = () => {
+            clearInterval(fadeTimer);
+            audio.volume = 0;
+            fadeTimer = setInterval(() => {
+                audio.volume = Math.min(TARGET_VOLUME, audio.volume + 0.05);
+                if (audio.volume >= TARGET_VOLUME) clearInterval(fadeTimer);
+            }, 80);
+        };
+
+        const play = async () => {
+            wantsPlaying = true;
+            render(true);
+            try {
+                fadeIn();
+                await audio.play();
+            } catch (e) {
+                wantsPlaying = false; // bloqueado o archivo no disponible
+                clearInterval(fadeTimer);
+                render(false);
+            }
+        };
+
+        // Stop: detiene y regresa la canción al inicio
+        const stop = () => {
+            wantsPlaying = false;
+            clearInterval(fadeTimer);
+            audio.pause();
+            audio.currentTime = 0;
+            render(false);
+        };
+
+        button.addEventListener('click', () => (audio.paused ? play() : stop()));
+        audio.addEventListener('error', () => { wantsPlaying = false; render(false); });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (!audio.paused) audio.pause();
+            } else if (wantsPlaying) {
+                audio.play().catch(() => render(false));
+            }
+        });
+    }
+
     /* ---------- Sección 2: video de fondo ----------
        Se reproduce una vez al llegar a la sección, siempre por detrás del texto y el
        contador (que están visibles todo el tiempo). Al terminar, el fondo se oscurece. */
@@ -544,6 +603,7 @@
     setupReveal();
     setupParallax();
     setupDreamVideo();
+    setupMusic();
     setupCountdown();
     setupRsvp();
     setupModal();
