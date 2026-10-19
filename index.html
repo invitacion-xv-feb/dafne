@@ -30,34 +30,42 @@
         </section>
 
         <!-- 2. MENSAJE + CUENTA REGRESIVA -->
-        <section class="section section--wave section--cream message" id="mensaje">
-            <div class="section__bg message__bg" data-parallax data-speed="45"></div>
+        <section class="section section--wave message" id="mensaje">
+            <!-- Fondo: video de Noche estrellada (se reproduce una vez al llegar a la sección) -->
+            <div class="section__bg message__bg" data-parallax data-speed="45">
+                <video class="message__video" muted playsinline preload="auto" disablepictureinpicture aria-hidden="true" tabindex="-1">
+                    <source src="van-gogh-violin.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="message__overlay" aria-hidden="true"></div>
             <div class="section__inner" data-parallax data-speed="-18">
-                <span class="ornament reveal" aria-hidden="true">✦</span>
-                <h2 class="title title--navy reveal" data-delay="1">UN SUEÑO<br>HECHO REALIDAD</h2>
-                <p class="lead reveal" data-delay="2">
-                    Hay momentos en la vida que se vuelven inolvidables
-                    cuando los compartes con las personas más especiales.
-                    Quiero que seas parte de esta noche mágica,
-                    llena de estrellas, alegría y nuevos comienzos.
-                </p>
+                <div class="message__content">
+                    <span class="ornament ornament--gold" aria-hidden="true">✦</span>
+                    <h2 class="title title--light">UN SUEÑO<br>HECHO REALIDAD</h2>
+                    <p class="lead lead--light">
+                        Hay momentos en la vida que se vuelven inolvidables
+                        cuando los compartes con las personas más especiales.
+                        Quiero que seas parte de esta noche mágica,
+                        llena de estrellas, alegría y nuevos comienzos.
+                    </p>
 
-                <div class="countdown reveal" data-delay="3" role="timer" aria-live="off">
-                    <div class="countdown__item">
-                        <span class="countdown__num" id="cd-days">000</span>
-                        <span class="countdown__label">DÍAS</span>
-                    </div>
-                    <div class="countdown__item">
-                        <span class="countdown__num" id="cd-hours">00</span>
-                        <span class="countdown__label">HORAS</span>
-                    </div>
-                    <div class="countdown__item">
-                        <span class="countdown__num" id="cd-minutes">00</span>
-                        <span class="countdown__label">MINUTOS</span>
-                    </div>
-                    <div class="countdown__item">
-                        <span class="countdown__num" id="cd-seconds">00</span>
-                        <span class="countdown__label">SEGUNDOS</span>
+                    <div class="countdown" role="timer" aria-live="off">
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="cd-days">000</span>
+                            <span class="countdown__label">DÍAS</span>
+                        </div>
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="cd-hours">00</span>
+                            <span class="countdown__label">HORAS</span>
+                        </div>
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="cd-minutes">00</span>
+                            <span class="countdown__label">MINUTOS</span>
+                        </div>
+                        <div class="countdown__item">
+                            <span class="countdown__num" id="cd-seconds">00</span>
+                            <span class="countdown__label">SEGUNDOS</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -127,6 +135,10 @@
                 </p>
                 <p class="rsvp__note reveal" data-delay="4">Podrán modificar su respuesta antes de la fecha límite.</p>
 
+                <div class="rsvp__ask reveal" data-delay="5">
+                    <p class="eyebrow eyebrow--gold">CONFIRMACIÓN DE ASISTENCIA</p>
+                    <h3 class="rsvp__ask-title">¿NOS ACOMPAÑAS?</h3>
+                </div>
                 <button class="btn btn--outline rsvp__cta reveal" type="button" id="confirm-btn" data-delay="5">
                     <span class="btn__check" aria-hidden="true">✓</span>
                     <span id="confirm-label">CONFIRMAR ASISTENCIA</span>
