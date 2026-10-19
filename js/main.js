@@ -7,17 +7,26 @@
 
     /* ---------- Configuración ---------- */
     const CONFIG = {
-        celebrantName: 'NOMBRE',
+        celebrantName: 'Dafne Cuevas',
         // Fecha y hora local del evento (AAAA-MM-DDTHH:mm:ss)
-        eventDate: '2027-06-12T19:00:00',
+        eventDate: '2027-02-27T19:00:00',
         timeLabel: '7:00 P. M.',
         venueName: 'Jardín Los Olivos',
         venueAddress: 'Calle de la Luna 456, Ciudad, MX',
         mapUrl: '', // Si se deja vacío se genera una búsqueda en Google Maps
-        family: 'Familia Rivera',
-        guests: ['Daniela Rivera', 'Marisol Rivera', 'Ricardo Rivera'],
+        family: '',
+        guests: [''],
+        // Número de WhatsApp (con lada de país, sin "+") para confirmar cuando family y guests están vacíos.
+        // Provisional: reemplazar por el número definitivo.
+        whatsappNumber: '525527367255',
         storageKey: 'xv-rsvp-v1'
     };
+
+    /* Los textos en blanco (por ejemplo guests: ['']) cuentan como vacíos */
+    function normalizeConfig() {
+        CONFIG.family = String(CONFIG.family || '').trim();
+        CONFIG.guests = (CONFIG.guests || []).map((g) => String(g).trim()).filter(Boolean);
+    }
 
     /* ---------- Personalización desde la URL ----------
        Ejemplo: ?para=Familia-Rivera&inv=Daniel-Rivera,Juan-Rivera,Ana-Rivera
@@ -27,27 +36,33 @@
         const params = new URLSearchParams(window.location.search);
         if (!params.has('para') && !params.has('inv')) return;
 
-        const decode = (value) => (value || '').replace(/-/g, ' ').trim();
+        // Límites para evitar que un enlace manipulado inyecte textos largos en la invitación
+        const MAX_NAME_LENGTH = 40;
+        const MAX_GUESTS = 10;
+        const decode = (value) => (value || '').replace(/-/g, ' ').trim().slice(0, MAX_NAME_LENGTH);
 
         const family = decode(params.get('para'));
-        if (family) CONFIG.family = family;
-
         const guests = (params.get('inv') || '')
             .split(',')
             .map(decode)
-            .filter(Boolean);
-        if (guests.length) CONFIG.guests = guests;
+            .filter(Boolean)
+            .slice(0, MAX_GUESTS);
+
+        // Evita mezclar datos de la URL con los invitados de ejemplo de CONFIG
+        CONFIG.family = family || 'Invitados especiales';
+        CONFIG.guests = guests.length ? guests : [CONFIG.family];
 
         $('#seats-line').hidden = true;
 
-        const identity = family || guests.join('|');
-        if (identity) {
+        const identity = `${family}|${guests.join('|')}`;
+        if (identity !== '|') {
             const slug = identity
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-+|-+$/g, '');
+                .replace(/^-+|-+$/g, '')
+                .slice(0, 80);
 
             if (slug) {
                 CONFIG.storageKey = `${CONFIG.storageKey}-${slug}`;
@@ -320,6 +335,12 @@
 
     /* ---------- Confirmación de asistencia ---------- */
     function setupRsvp() {
+        // Sin familia ni invitados: solo el botón, que confirma por WhatsApp
+        if (!CONFIG.family && !CONFIG.guests.length) {
+            setupWhatsappRsvp();
+            return;
+        }
+
         const list = $('#guest-list');
         const summary = $('#guest-summary');
         const countBox = summary.parentElement;
@@ -365,7 +386,7 @@
                 btn.setAttribute('aria-checked', String(on));
             });
             const n = selected.size;
-            summary.textContent = `${n} de ${total} ${n === 1 ? 'persona asistirá' : 'personas asistirán'}`;
+            summary.textContent = `${n} de ${total} ${total === 1 ? 'persona' : 'personas'} ${n === 1 ? 'asistirá' : 'asistirán'}`;
             if (animate) {
                 countBox.classList.remove('bump');
                 void countBox.offsetWidth;
@@ -386,6 +407,21 @@
         });
 
         refresh(false);
+    }
+
+    /* Confirmación simple: abre WhatsApp con un mensaje prellenado */
+    function setupWhatsappRsvp() {
+        $('#confirmacion').classList.add('rsvp--simple');
+
+        const name = CONFIG.celebrantName ? ` de ${CONFIG.celebrantName}` : '';
+        const text = `Hola, confirmo mi asistencia a los XV años${name}.`;
+        const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
+
+        const button = $('#confirm-btn');
+        button.addEventListener('click', () => {
+            burst(button);
+            window.open(url, '_blank', 'noopener,noreferrer');
+        });
     }
 
     /* Chispas doradas desde un elemento */
@@ -420,7 +456,27 @@
         });
     }
 
+    /* ---------- Modal de normas del evento ----------
+       Se abre al cargar la página y desde el botón de la sección de vestimenta */
+    function setupRulesModal() {
+        const modal = $('#rules-modal');
+        if (typeof modal.showModal !== 'function') return;
+
+        const open = () => {
+            if (modal.open) return;
+            document.body.classList.add('is-locked');
+            modal.showModal();
+            $('#rules-accept').focus({ preventScroll: true });
+            modal.scrollTop = 0; // el modal debe abrir mostrando el título
+        };
+
+        modal.addEventListener('close', () => document.body.classList.remove('is-locked'));
+        $('#open-rules').addEventListener('click', open);
+        open();
+    }
+
     /* ---------- Inicio ---------- */
+    normalizeConfig();
     applyUrlOverrides();
     fillContent();
     buildStars();
@@ -429,4 +485,5 @@
     setupCountdown();
     setupRsvp();
     setupModal();
+    setupRulesModal();
 })();
