@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulario</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 480px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+        form {
+            display: grid;
+            gap: 1rem;
+        }
+        label {
+            font-weight: 600;
+        }
+        input {
+            padding: 0.6rem;
+            font: inherit;
+        }
+        button {
+            padding: 0.7rem;
+            font: inherit;
+            cursor: pointer;
+        }
+        .error {
+            min-height: 1.2em;
+            margin: 0;
+            color: #b00020;
+        }
+        .is-invalid {
+            border: 1px solid #b00020;
+        }
+    </style>
+</head>
+<body>
+    <form id="formulario" novalidate>
+        <label for="familia">Familia o persona</label>
+        <input type="text" id="familia" name="familia" required aria-describedby="familia-error">
+        <p class="error" id="familia-error" role="alert" aria-live="polite"></p>
+        <label for="invitados">Invitados</label>
+        <input type="text" id="invitados" name="invitados" required placeholder="Ej. Ana Pérez, Juan Rivera" aria-describedby="invitados-error">
+        <p class="error" id="invitados-error" role="alert" aria-live="polite"></p>
+        <button type="submit">Enviar</button>
+    </form>
+    <script src="js/formulario.js" defer></script>
+</body>
+</html>
