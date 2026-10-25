@@ -11,10 +11,10 @@
         // Fecha y hora local del evento (AAAA-MM-DDTHH:mm:ss)
         eventDate: '2027-02-27T19:00:00',
         timeLabel: '7:00 P. M.',
-        venueName: 'El Edhen',
+        venueName: '',
         // Cada elemento es un renglón (también se acepta un solo texto)
         venueAddress: ['P. de La Escondida Mz 51-Lt 7,', 'Hacienda Ojo de Agua,', '55770 Edo de Méx.'],
-        mapUrl: 'https://www.google.com/maps/place/El+Edhen/data=!4m2!3m1!1s0x0:0x2f9c74dc475b1947?sa=X&ved=1t:2428&ictx=111', // Si se deja vacío se genera una búsqueda en Google Maps
+        mapUrl: 'https://maps.app.goo.gl/vukj82pesnh1y87v7', // Si se deja vacío se genera una búsqueda en Google Maps
         family: '',
         guests: [],
         storageKey: 'xv-rsvp-v1'
@@ -95,7 +95,12 @@
         $('#celebrant-name').textContent = CONFIG.celebrantName;
         $('#event-time').textContent = CONFIG.timeLabel;
         $('#venue-name').textContent = CONFIG.venueName;
-        $('#venue-address').textContent = CONFIG.venueAddress;
+        const venueAddressEl = $('#venue-address');
+        if (Array.isArray(CONFIG.venueAddress)) {
+            venueAddressEl.innerHTML = CONFIG.venueAddress.map(line => `<span>${line}</span>`).join('<br>');
+        } else {
+            venueAddressEl.textContent = CONFIG.venueAddress;
+        }
         $('#family-name').textContent = CONFIG.family;
         $('#seats-total').textContent = CONFIG.guests.length;
 
