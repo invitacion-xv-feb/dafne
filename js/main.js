@@ -321,6 +321,7 @@
     /* ---------- Confirmación de asistencia ---------- */
     function setupRsvp() {
         const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzX53aD-yfrq88ZdeL_66w30zDqs46hNpHxckBJZal8IEJl3b_p3dx_3rthrzPyg3tI/exec";
+        const WHATSAPP_NUMBER = "525527367255";
         
         const list = $('#guest-list');
         const summary = $('#guest-summary');
@@ -381,6 +382,11 @@
         }
 
         button.addEventListener('click', () => {
+            if (selected.size === 0) {
+                alert("Selecciona al menos un invitado para confirmar.");
+                return;
+            }
+            
             confirmed = true;
             const selectedNames = [...selected].map(i => CONFIG.guests[i]);
             const payload = {
@@ -407,6 +413,20 @@
                 console.log("Petición RSVP enviada (no-cors)");
             } catch (e) {
                 console.warn("No se pudo enviar al Google Sheet:", e);
+            }
+            
+            try {
+                const waText = 
+                    `*CONFIRMACIÓN XV AÑOS*\n\n` +
+                    `Familia: ${CONFIG.family}\n` +
+                    `Invitados que asistirán: ${selectedNames.join(", ")}\n` +
+                    `Total de personas: ${selectedNames.length}\n\n` +
+                    `Confirmado desde: ${window.location.href}`;
+                
+                const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+                window.open(waUrl, '_blank');
+            } catch (e) {
+                console.warn("No se pudo abrir WhatsApp:", e);
             }
         });
 
