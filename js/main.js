@@ -1,5 +1,5 @@
 /* ==========================================================
-   Invitación XVI Años — comportamiento e interacciones
+   Invitación XV Años — comportamiento e interacciones
    Edita CONFIG para personalizar la invitación.
    ========================================================== */
 (function () {
@@ -7,27 +7,17 @@
 
     /* ---------- Configuración ---------- */
     const CONFIG = {
-        celebrantName: 'Dafne Cuevas',
+        celebrantName: 'NOMBRE',
         // Fecha y hora local del evento (AAAA-MM-DDTHH:mm:ss)
-        eventDate: '2027-02-27T19:00:00',
+        eventDate: '2027-06-12T19:00:00',
         timeLabel: '7:00 P. M.',
-        venueName: 'El Edhen',
-        // Cada elemento es un renglón (también se acepta un solo texto)
-        venueAddress: ['P. de La Escondida Mz 51-Lt 7,', 'Hacienda Ojo de Agua,', '55770 Edo de Méx.'],
-        mapUrl: 'https://www.google.com/maps/place/El+Edhen/data=!4m2!3m1!1s0x0:0x2f9c74dc475b1947?sa=X&ved=1t:2428&ictx=111', // Si se deja vacío se genera una búsqueda en Google Maps
-        family: '',
-        guests: [''],
-        // Número de WhatsApp (con lada de país, sin "+") para confirmar cuando family y guests están vacíos.
-        // Provisional: reemplazar por el número definitivo.
-        whatsappNumber: '525527367255',
+        venueName: 'Jardín Los Olivos',
+        venueAddress: 'Calle de la Luna 456, Ciudad, MX',
+        mapUrl: '', // Si se deja vacío se genera una búsqueda en Google Maps
+        family: 'Familia Rivera',
+        guests: ['Daniela Rivera', 'Marisol Rivera', 'Ricardo Rivera'],
         storageKey: 'xv-rsvp-v1'
     };
-
-    /* Los textos en blanco (por ejemplo guests: ['']) cuentan como vacíos */
-    function normalizeConfig() {
-        CONFIG.family = String(CONFIG.family || '').trim();
-        CONFIG.guests = (CONFIG.guests || []).map((g) => String(g).trim()).filter(Boolean);
-    }
 
     /* ---------- Personalización desde la URL ----------
        Ejemplo: ?para=Familia-Rivera&inv=Daniel-Rivera,Juan-Rivera,Ana-Rivera
@@ -37,33 +27,27 @@
         const params = new URLSearchParams(window.location.search);
         if (!params.has('para') && !params.has('inv')) return;
 
-        // Límites para evitar que un enlace manipulado inyecte textos largos en la invitación
-        const MAX_NAME_LENGTH = 40;
-        const MAX_GUESTS = 10;
-        const decode = (value) => (value || '').replace(/-/g, ' ').trim().slice(0, MAX_NAME_LENGTH);
+        const decode = (value) => (value || '').replace(/-/g, ' ').trim();
 
         const family = decode(params.get('para'));
+        if (family) CONFIG.family = family;
+
         const guests = (params.get('inv') || '')
             .split(',')
             .map(decode)
-            .filter(Boolean)
-            .slice(0, MAX_GUESTS);
-
-        // Evita mezclar datos de la URL con los invitados de ejemplo de CONFIG
-        CONFIG.family = family || 'Invitados especiales';
-        CONFIG.guests = guests.length ? guests : [CONFIG.family];
+            .filter(Boolean);
+        if (guests.length) CONFIG.guests = guests;
 
         $('#seats-line').hidden = true;
 
-        const identity = `${family}|${guests.join('|')}`;
-        if (identity !== '|') {
+        const identity = family || guests.join('|');
+        if (identity) {
             const slug = identity
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-+|-+$/g, '')
-                .slice(0, 80);
+                .replace(/^-+|-+$/g, '');
 
             if (slug) {
                 CONFIG.storageKey = `${CONFIG.storageKey}-${slug}`;
@@ -96,17 +80,10 @@
 
     /* ---------- Contenido dinámico (siempre con textContent) ---------- */
     function fillContent() {
-        const addressLines = [].concat(CONFIG.venueAddress);
         $('#celebrant-name').textContent = CONFIG.celebrantName;
         $('#event-time').textContent = CONFIG.timeLabel;
         $('#venue-name').textContent = CONFIG.venueName;
-        // Un renglón por elemento; se crean nodos de texto y <br> (nunca HTML)
-        const addressEl = $('#venue-address');
-        addressEl.textContent = '';
-        addressLines.forEach((line, i) => {
-            if (i) addressEl.appendChild(document.createElement('br'));
-            addressEl.appendChild(document.createTextNode(line));
-        });
+        $('#venue-address').textContent = CONFIG.venueAddress;
         $('#family-name').textContent = CONFIG.family;
         $('#seats-total').textContent = CONFIG.guests.length;
 
@@ -115,7 +92,7 @@
                 `${pad(eventDate.getDate())} · ${pad(eventDate.getMonth() + 1)} · ${eventDate.getFullYear()}`;
         }
 
-        const query = encodeURIComponent(`${CONFIG.venueName} ${addressLines.join(' ')}`);
+        const query = encodeURIComponent(`${CONFIG.venueName} ${CONFIG.venueAddress}`);
         const mapUrl = CONFIG.mapUrl || `https://www.google.com/maps/search/?api=1&query=${query}`;
         $('#map-link').href = mapUrl;
     }
@@ -343,12 +320,8 @@
 
     /* ---------- Confirmación de asistencia ---------- */
     function setupRsvp() {
-        // Sin familia ni invitados: solo el botón, que confirma por WhatsApp
-        if (!CONFIG.family && !CONFIG.guests.length) {
-            setupWhatsappRsvp();
-            return;
-        }
-
+        const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzX53aD-yfrq88ZdeL_66w30zDqs46hNpHxckBJZal8IEJl3b_p3dx_3rthrzPyg3tI/exec";
+        
         const list = $('#guest-list');
         const summary = $('#guest-summary');
         const countBox = summary.parentElement;
@@ -394,7 +367,7 @@
                 btn.setAttribute('aria-checked', String(on));
             });
             const n = selected.size;
-            summary.textContent = `${n} de ${total} ${total === 1 ? 'persona' : 'personas'} ${n === 1 ? 'asistirá' : 'asistirán'}`;
+            summary.textContent = `${n} de ${total} ${n === 1 ? 'persona asistirá' : 'personas asistirán'}`;
             if (animate) {
                 countBox.classList.remove('bump');
                 void countBox.offsetWidth;
@@ -409,27 +382,35 @@
 
         button.addEventListener('click', () => {
             confirmed = true;
+            const selectedNames = [...selected].map(i => CONFIG.guests[i]);
+            const payload = {
+                family: CONFIG.family,
+                selectedNames: selectedNames,
+                count: selectedNames.length,
+                storageKey: CONFIG.storageKey,
+                origin: window.location.href,
+                userAgent: navigator.userAgent
+            };
+            
             storage.set(CONFIG.storageKey, { selected: [...selected], confirmed: true });
             refresh(false);
             burst(button);
+            
+            try {
+                console.log("Enviando RSVP a Google Sheets:", payload);
+                fetch(WEBAPP_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                console.log("Petición RSVP enviada (no-cors)");
+            } catch (e) {
+                console.warn("No se pudo enviar al Google Sheet:", e);
+            }
         });
 
         refresh(false);
-    }
-
-    /* Confirmación simple: abre WhatsApp con un mensaje prellenado */
-    function setupWhatsappRsvp() {
-        $('#confirmacion').classList.add('rsvp--simple');
-
-        const name = CONFIG.celebrantName ? ` de ${CONFIG.celebrantName}` : '';
-        const text = `Hola, confirmo mi asistencia a los XVI años${name}.`;
-        const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
-
-        const button = $('#confirm-btn');
-        button.addEventListener('click', () => {
-            burst(button);
-            window.open(url, '_blank', 'noopener,noreferrer');
-        });
     }
 
     /* Chispas doradas desde un elemento */
@@ -464,156 +445,13 @@
         });
     }
 
-    /* ---------- Modal de normas del evento ----------
-       Se abre solo al presionar el botón de la sección de vestimenta */
-    function setupRulesModal() {
-        const modal = $('#rules-modal');
-        if (typeof modal.showModal !== 'function') return;
-
-        const open = () => {
-            if (modal.open) return;
-            document.body.classList.add('is-locked');
-            modal.showModal();
-            $('#rules-accept').focus({ preventScroll: true });
-            modal.scrollTop = 0; // el modal debe abrir mostrando el título
-        };
-
-        modal.addEventListener('close', () => document.body.classList.remove('is-locked'));
-        $('#open-rules').addEventListener('click', open);
-    }
-
-    /* ---------- Música de fondo ----------
-       Play/Stop con el ícono flotante; solo suena tras un clic (política de autoplay). Se pausa si la pestaña
-       se oculta y se reanuda al volver, siempre que el usuario la haya activado. */
-    function setupMusic() {
-        const audio = $('#bg-music');
-        const button = $('#music-toggle');
-        const TARGET_VOLUME = 0.6;
-        let wantsPlaying = false;
-        let fadeTimer = 0;
-
-        const render = (playing) => {
-            button.classList.toggle('is-playing', playing);
-            button.setAttribute('aria-pressed', String(playing));
-            button.setAttribute('aria-label', playing ? 'Detener música' : 'Reproducir música');
-        };
-
-        const fadeIn = () => {
-            clearInterval(fadeTimer);
-            audio.volume = 0;
-            fadeTimer = setInterval(() => {
-                audio.volume = Math.min(TARGET_VOLUME, audio.volume + 0.05);
-                if (audio.volume >= TARGET_VOLUME) clearInterval(fadeTimer);
-            }, 80);
-        };
-
-        const play = async () => {
-            wantsPlaying = true;
-            render(true);
-            try {
-                fadeIn();
-                await audio.play();
-            } catch (e) {
-                wantsPlaying = false; // bloqueado o archivo no disponible
-                clearInterval(fadeTimer);
-                render(false);
-            }
-        };
-
-        // Stop: detiene y regresa la canción al inicio
-        const stop = () => {
-            wantsPlaying = false;
-            clearInterval(fadeTimer);
-            audio.pause();
-            audio.currentTime = 0;
-            render(false);
-        };
-
-        button.addEventListener('click', () => (audio.paused ? play() : stop()));
-        audio.addEventListener('error', () => { wantsPlaying = false; render(false); });
-
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                if (!audio.paused) audio.pause();
-            } else if (wantsPlaying) {
-                audio.play().catch(() => render(false));
-            }
-        });
-    }
-
-    /* ---------- Sección 2: video de fondo ----------
-       Se reproduce una vez al llegar a la sección, siempre por detrás del texto y el
-       contador (que están visibles todo el tiempo). Al terminar, el fondo se oscurece. */
-    function setupDreamVideo() {
-        const section = $('#mensaje');
-        const video = $('.message__video', section);
-        if (!video || prefersReducedMotion) return; // CSS muestra el contenido sin video
-
-        let started = false;
-        let finished = false;
-        let waitTimer = 0;
-        let stallTimer = 0;
-        let maxTimer = 0;
-
-        const finish = () => {
-            if (finished) return;
-            finished = true;
-            clearTimeout(waitTimer);
-            clearTimeout(stallTimer);
-            clearTimeout(maxTimer);
-            section.classList.add('is-finished'); // is-playing se conserva: el zoom queda en su valor final
-        };
-
-        const start = async () => {
-            if (started) return;
-            started = true;
-            observer.disconnect();
-
-            // El zoom arranca cuando el video realmente se está reproduciendo
-            video.addEventListener('playing', () => {
-                clearTimeout(stallTimer);
-                section.style.setProperty('--dream-duration', `${video.duration || 4.33}s`);
-                section.classList.add('is-playing');
-            }, { once: true });
-
-            stallTimer = setTimeout(() => { if (video.currentTime === 0) finish(); }, 4000);
-            maxTimer = setTimeout(finish, ((video.duration || 4.33) + 6) * 1000);
-
-            try {
-                await video.play();
-            } catch (e) {
-                finish(); // autoplay bloqueado o formato no soportado
-            }
-        };
-
-        video.addEventListener('ended', finish, { once: true });
-        video.addEventListener('error', finish, true); // los errores de <source> llegan por captura
-
-        const observer = new IntersectionObserver(([entry]) => {
-            if (entry.intersectionRatio >= 0.4) {
-                start();
-            } else if (entry.intersectionRatio >= 0.15) {
-                // Pantallas muy bajas: si la sección nunca llega al 40 %, arranca igual
-                if (!waitTimer) waitTimer = setTimeout(start, 2500);
-            } else {
-                clearTimeout(waitTimer); // apenas asoma la sección: todavía no se reproduce
-                waitTimer = 0;
-            }
-        }, { threshold: [0, 0.15, 0.4] });
-        observer.observe(section);
-    }
-
     /* ---------- Inicio ---------- */
-    normalizeConfig();
     applyUrlOverrides();
     fillContent();
     buildStars();
     setupReveal();
     setupParallax();
-    setupDreamVideo();
-    setupMusic();
     setupCountdown();
     setupRsvp();
     setupModal();
-    setupRulesModal();
 })();
