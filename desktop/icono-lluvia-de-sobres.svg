@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 512 420"
+  role="img"
+  aria-labelledby="title description"
+  style="color:#D99A1B"
+>
+  <title id="title">Lluvia de sobres</title>
+  <desc id="description">Regalo, sobre y destello dorados.</desc>
+
+  <g
+    fill="none"
+    stroke="currentColor"
+    stroke-width="12"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <!-- Moño -->
+    <path d="M187 125C181 79 151 47 116 47C86 47 69 66 73 91C77 116 104 125 187 125Z"/>
+    <path d="M187 125C193 79 223 47 258 47C288 47 305 66 301 91C297 116 270 125 187 125Z"/>
+
+    <!-- Regalo detrás del sobre -->
+    <rect x="60" y="125" width="254" height="66" rx="8"/>
+    <path d="M78 191V344H150"/>
+    <path d="M296 191V201"/>
+
+    <!-- Listón: continúa en el cuerpo sin tocar el sobre -->
+    <path d="M187 126V202"/>
+
+    <!-- Sobre al frente -->
+    <rect x="174" y="215" width="309" height="174" rx="10"/>
+    <path d="M184 228L328.5 321L473 228"/>
+  </g>
+
+  <!-- Destello -->
+  <path
+    fill="currentColor"
+    d="M388 50C391 82 398 91 430 95C398 99 391 108 388 140C385 108 378 99 346 95C378 91 385 82 388 50Z"
+  />
+</svg>
