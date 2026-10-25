@@ -7,13 +7,14 @@
 
     /* ---------- Configuración ---------- */
     const CONFIG = {
-        celebrantName: 'NOMBRE',
+        celebrantName: 'Dafne Cuevas',
         // Fecha y hora local del evento (AAAA-MM-DDTHH:mm:ss)
-        eventDate: '2027-06-12T19:00:00',
+        eventDate: '2027-02-27T19:00:00',
         timeLabel: '7:00 P. M.',
-        venueName: 'Jardín Los Olivos',
-        venueAddress: 'Calle de la Luna 456, Ciudad, MX',
-        mapUrl: '', // Si se deja vacío se genera una búsqueda en Google Maps
+        venueName: 'El Edhen',
+        // Cada elemento es un renglón (también se acepta un solo texto)
+        venueAddress: ['P. de La Escondida Mz 51-Lt 7,', 'Hacienda Ojo de Agua,', '55770 Edo de Méx.'],
+        mapUrl: 'https://www.google.com/maps/place/El+Edhen/data=!4m2!3m1!1s0x0:0x2f9c74dc475b1947?sa=X&ved=1t:2428&ictx=111', // Si se deja vacío se genera una búsqueda en Google Maps
         family: 'Familia Rivera',
         guests: ['Daniela Rivera', 'Marisol Rivera', 'Ricardo Rivera'],
         storageKey: 'xv-rsvp-v1'
