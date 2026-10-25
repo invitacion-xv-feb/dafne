@@ -15,15 +15,15 @@
         // Cada elemento es un renglón (también se acepta un solo texto)
         venueAddress: ['P. de La Escondida Mz 51-Lt 7,', 'Hacienda Ojo de Agua,', '55770 Edo de Méx.'],
         mapUrl: 'https://www.google.com/maps/place/El+Edhen/data=!4m2!3m1!1s0x0:0x2f9c74dc475b1947?sa=X&ved=1t:2428&ictx=111', // Si se deja vacío se genera una búsqueda en Google Maps
-        family: 'Familia Rivera',
-        guests: ['Daniela Rivera', 'Marisol Rivera', 'Ricardo Rivera'],
+        family: '',
+        guests: [],
         storageKey: 'xv-rsvp-v1'
     };
 
     /* ---------- Personalización desde la URL ----------
-       Ejemplo: ?para=Familia-Rivera&inv=Daniel-Rivera,Juan-Rivera,Ana-Rivera
-       Los guiones se muestran como espacios. No hay asientos ni
-       preselección cuando la llegada es por URL. */
+        Ejemplo: ?para=Familia-Rivera&inv=Daniel-Rivera,Juan-Rivera,Ana-Rivera
+        Los guiones se muestran como espacios. No hay asientos ni
+        preselección cuando la llegada es por URL. */
     function applyUrlOverrides() {
         const params = new URLSearchParams(window.location.search);
         if (!params.has('para') && !params.has('inv')) return;
@@ -33,15 +33,27 @@
         const family = decode(params.get('para'));
         if (family) CONFIG.family = family;
 
-        const guests = (params.get('inv') || '')
-            .split(',')
-            .map(decode)
-            .filter(Boolean);
-        if (guests.length) CONFIG.guests = guests;
+        if (params.has('para') && (!params.has('inv') || !params.get('inv') || !params.get('inv').trim())) {
+            CONFIG.guests = [family];
+            const intro = document.querySelector('.rsvp__intro');
+            const guestList = document.getElementById('guest-list');
+            const count = document.querySelector('.rsvp__count');
+            const note = document.querySelector('.rsvp__note');
+            if (intro) intro.style.display = 'none';
+            if (guestList) guestList.style.display = 'none';
+            if (count) count.style.display = 'none';
+            if (note) note.style.display = 'none';
+            $('#seats-line').hidden = true;
+        } else {
+            const guests = (params.get('inv') || '')
+                .split(',')
+                .map(decode)
+                .filter(Boolean);
+            if (guests.length) CONFIG.guests = guests;
+            $('#seats-line').hidden = true;
+        }
 
-        $('#seats-line').hidden = true;
-
-        const identity = family || guests.join('|');
+        const identity = family || (CONFIG.guests && CONFIG.guests.join('|'));
         if (identity) {
             const slug = identity
                 .normalize('NFD')
@@ -53,7 +65,6 @@
             if (slug) {
                 CONFIG.storageKey = `${CONFIG.storageKey}-${slug}`;
             } else {
-                // Identidad sin caracteres alfanuméricos: hash corto (djb2)
                 let hash = 5381;
                 for (let i = 0; i < identity.length; i++) {
                     hash = ((hash << 5) + hash + identity.charCodeAt(i)) >>> 0;
@@ -383,6 +394,54 @@
         }
 
         button.addEventListener('click', () => {
+            const paramsUrl = new URLSearchParams(window.location.search);
+            if (paramsUrl.has('para') && (!paramsUrl.has('inv') || !paramsUrl.get('inv') || !paramsUrl.get('inv').trim())) {
+                confirmed = true;
+                const selectedNames = [CONFIG.family];
+                const payload = {
+                    family: CONFIG.family,
+                    selectedNames: selectedNames,
+                    count: selectedNames.length,
+                    storageKey: CONFIG.storageKey,
+                    origin: window.location.href,
+                    userAgent: navigator.userAgent
+                };
+                
+                storage.set(CONFIG.storageKey, { selected: [0], confirmed: true });
+                selected.clear();
+                selected.add(0);
+                refresh(false);
+                burst(button);
+                
+                try {
+                    console.log("Enviando RSVP a Google Sheets:", payload);
+                    fetch(WEBAPP_URL, {
+                        method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify(payload)
+                    });
+                    console.log("Petición RSVP enviada (no-cors)");
+                } catch (e) {
+                    console.warn("No se pudo enviar al Google Sheet:", e);
+                }
+                
+                try {
+                    const waText = 
+                        `*CONFIRMACIÓN XV AÑOS*\n\n` +
+                        `Familia: ${CONFIG.family}\n` +
+                        `Invitados que asistirán: ${selectedNames.join(", ")}\n` +
+                        `Total de personas: ${selectedNames.length}\n\n` +
+                        `Confirmado desde: ${window.location.href}`;
+                    
+                    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+                    window.open(waUrl, '_blank');
+                } catch (e) {
+                    console.warn("No se pudo abrir WhatsApp:", e);
+                }
+                return;
+            }
+            
             if (selected.size === 0) {
                 alert("Selecciona al menos un invitado para confirmar.");
                 return;
