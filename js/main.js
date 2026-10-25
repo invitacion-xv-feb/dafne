@@ -426,19 +426,19 @@
                     console.warn("No se pudo enviar al Google Sheet:", e);
                 }
                 
-                try {
-                    const waText = 
-                        `*CONFIRMACIÓN XV AÑOS*\n\n` +
-                        `Familia: ${CONFIG.family}\n` +
-                        `Invitados que asistirán: ${selectedNames.join(", ")}\n` +
-                        `Total de personas: ${selectedNames.length}\n\n` +
-                        `Confirmado desde: ${window.location.href}`;
-                    
-                    const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
-                    window.open(waUrl, '_blank');
-                } catch (e) {
-                    console.warn("No se pudo abrir WhatsApp:", e);
-                }
+            try {
+                const waText = 
+                    `*CONFIRMACIÓN XVI AÑOS*\n\n` +
+                    `Familia: ${CONFIG.family}\n` +
+                    `Invitados que asistirán: ${selectedNames.join(", ")}\n` +
+                    `Total de personas: ${selectedNames.length}\n\n` +
+                    `Confirmado desde: ${window.location.href}`;
+                
+                const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+                window.open(waUrl, '_blank');
+            } catch (e) {
+                console.warn("No se pudo abrir WhatsApp:", e);
+            }
                 return;
             }
             
@@ -477,7 +477,7 @@
             
             try {
                 const waText = 
-                    `*CONFIRMACIÓN XV AÑOS*\n\n` +
+                    `*CONFIRMACIÓN XVI AÑOS*\n\n` +
                     `Familia: ${CONFIG.family}\n` +
                     `Invitados que asistirán: ${selectedNames.join(", ")}\n` +
                     `Total de personas: ${selectedNames.length}\n\n` +
