@@ -335,6 +335,37 @@
         setInterval(render, 1000);
     }
 
+    /* ---------- Video de apertura de la sección 2 ---------- */
+    function setupDreamVideo() {
+        const section = $('#mensaje');
+        const video = $('.dream-video', section);
+        if (!video) return;
+        if (prefersReducedMotion) { video.remove(); return; }
+
+        section.classList.add('has-dream');
+        const LEAD_SECONDS = 2; // el círculo inicia cuando faltan ~2 s para que termine el video
+        let finished = false;
+        const finish = () => {
+            if (finished) return;
+            finished = true;
+            section.classList.add('is-finished');
+            video.addEventListener('animationend', () => video.remove(), { once: true });
+        };
+        video.addEventListener('timeupdate', () => {
+            if ((video.duration - video.currentTime) / video.playbackRate <= LEAD_SECONDS) finish();
+        });
+        video.addEventListener('ended', finish, { once: true });
+        video.addEventListener('error', finish, { once: true });
+
+        const observer = new IntersectionObserver((entries) => {
+            if (!entries[0].isIntersecting) return;
+            observer.disconnect();
+            video.playbackRate = 1.2; // el video completo dura ~3.6 s en vez de 4.3 s
+            video.play().catch(finish); // autoplay bloqueado: se muestra la sección directamente
+        }, { threshold: 0.6 });
+        observer.observe(section);
+    }
+
     /* ---------- Confirmación de asistencia ---------- */
     function setupRsvp() {
         const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzX53aD-yfrq88ZdeL_66w30zDqs46hNpHxckBJZal8IEJl3b_p3dx_3rthrzPyg3tI/exec";
@@ -528,6 +559,43 @@
         modal.addEventListener('click', (event) => {
             if (event.target === modal) modal.close(); // clic en el fondo
         });
+
+        const rules = $('#rules-modal');
+        $('#open-rules').addEventListener('click', () => {
+            if (typeof rules.showModal === 'function') rules.showModal();
+        });
+    }
+
+    /* ---------- Música de fondo ---------- */
+    function setupMusic() {
+        const audio = $('#bg-music');
+        const button = $('#music-btn');
+        let resumeOnShow = false;
+
+        const sync = () => {
+            const playing = !audio.paused;
+            button.classList.toggle('is-playing', playing);
+            button.setAttribute('aria-pressed', String(playing));
+            button.setAttribute('aria-label', playing ? 'Pausar música' : 'Reproducir música');
+        };
+
+        button.addEventListener('click', () => {
+            if (audio.paused) audio.play().catch(() => {});
+            else audio.pause();
+        });
+        audio.addEventListener('play', sync);
+        audio.addEventListener('pause', sync);
+
+        // Se pausa al cambiar de pestaña y se reanuda al volver
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                resumeOnShow = !audio.paused;
+                audio.pause();
+            } else if (resumeOnShow) {
+                audio.play().catch(() => {});
+                resumeOnShow = false;
+            }
+        });
     }
 
     /* ---------- Inicio ---------- */
@@ -537,6 +605,8 @@
     setupReveal();
     setupParallax();
     setupCountdown();
+    setupDreamVideo();
     setupRsvp();
     setupModal();
+    setupMusic();
 })();
