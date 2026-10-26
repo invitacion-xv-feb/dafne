@@ -31,6 +31,9 @@
 
         <!-- 2. MENSAJE + CUENTA REGRESIVA -->
         <section class="section section--wave section--cream message" id="mensaje">
+            <video class="dream-video" muted playsinline preload="auto" aria-hidden="true" tabindex="-1">
+                <source src="van-gogh-violin.mp4" type="video/mp4">
+            </video>
             <div class="section__bg message__bg" data-parallax data-speed="45"></div>
             <div class="section__inner" data-parallax data-speed="-18">
                 <span class="ornament reveal" aria-hidden="true">✦</span>
@@ -146,6 +149,9 @@
                     <li class="swatch swatch--navy" title="Azul noche"></li>
                     <li class="swatch swatch--cream" title="Crema"></li>
                 </ul>
+                <button class="btn btn--navy reveal" type="button" id="open-rules" data-delay="4">
+                    VER NORMAS DEL EVENTO <span class="btn__arrow" aria-hidden="true">›</span>
+                </button>
             </div>
         </section>
 
@@ -172,6 +178,30 @@
             <button class="btn btn--navy" value="close">ENTENDIDO</button>
         </form>
     </dialog>
+
+    <!-- Modal: normas del evento (se abre solo desde #open-rules) -->
+    <dialog class="modal modal--rules" id="rules-modal" aria-labelledby="rules-title">
+        <form method="dialog" class="modal__box">
+            <h3 id="rules-title">INFORMACIÓN<br>IMPORTANTE</h3>
+            <span class="ornament" aria-hidden="true">✦</span>
+            <p class="modal__subtitle">Normas para disfrutar juntos</p>
+            <ul class="rules">
+                <li><h4>Identificación</h4><p>Las personas mayores de 18 años deberán presentar INE o identificación oficial para ingresar.</p></li>
+                <li><h4>Ambiente sin humo</h4><p>Agradecemos evitar fumar dentro del salón.</p></li>
+                <li><h4>Bebidas externas</h4><p>No está permitido ingresar bebidas ajenas al establecimiento.</p></li>
+                <li><h4>Momentos especiales</h4><p>Durante los momentos protocolarios, evita obstruir la vista de otros invitados.</p></li>
+                <li><h4>Cuidemos el espacio</h4><p>Ayúdanos a conservar en buen estado las instalaciones y la decoración.</p></li>
+            </ul>
+            <p class="modal__thanks">Gracias por ayudarnos a disfrutar de una noche especial.</p>
+            <button class="btn btn--navy" value="close">ENTENDIDO</button>
+        </form>
+    </dialog>
+
+    <audio id="bg-music" src="cabcion.mp3" loop preload="none"></audio>
+    <button class="music-btn" type="button" id="music-btn" aria-label="Reproducir música" aria-pressed="false">
+        <svg class="music-btn__play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"/></svg>
+        <svg class="music-btn__pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7Zm6 0h4v14h-4Z"/></svg>
+    </button>
 
     <script src="js/main.js"></script>
 </body>
