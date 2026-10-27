@@ -369,7 +369,7 @@
     /* ---------- Confirmación de asistencia ---------- */
     function setupRsvp() {
         const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzX53aD-yfrq88ZdeL_66w30zDqs46hNpHxckBJZal8IEJl3b_p3dx_3rthrzPyg3tI/exec";
-        const WHATSAPP_NUMBER = "525527367255";
+        const WHATSAPP_NUMBER = "525576886503";
         
         const list = $('#guest-list');
         const summary = $('#guest-summary');
